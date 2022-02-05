@@ -19,6 +19,7 @@ pipenv shell
 # Setup frameworks and tools
 pipenv install Django==4.0.2
 pipenv install djangorestframework==3.13.1
+pipenv install psycopg2==2.9.3
 
 # formatters to dev
 pipenv install --dev black==22.1.0
@@ -63,4 +64,20 @@ isort .
 
 # black
 python -m black .
+```
+
+# DB connection
+
+```bash
+# Create postgesql connection
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "db_name",
+        "USER": "db_username",
+        "PASSWORD": "password",
+        "HOST": "your_hostname",
+        "PORT": "your_port",
+    }
+}
 ```
