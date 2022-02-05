@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 Django = "==4.0.2"
 djangorestframework = "==3.13.1"
+psycopg2 = "==2.9.3"
 
 [dev-packages]
 black = "==22.1.0"
