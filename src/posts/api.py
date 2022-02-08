@@ -1,11 +1,15 @@
-from django.http import JsonResponse
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+
+from .models import Post
+from .serializers import PostSerializer
 
 
-def posts(request):
-    data = {
-        "posts": [
-            {"id": 1, "title": "Post1", "content": "some content", "author": "admin"},
-            {"id": 2, "title": "Post2", "content": "some content", "author": "anonimus"},
-        ]
-    }
-    return JsonResponse(data)
+class PostListCreateAPI(ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class PostRetrieveUpdateDestroyAPI(RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    lookup_field = "id"
