@@ -10,6 +10,10 @@ __pycache__/
 
 # ENV
 .env
+.env/
+env/
+.venv/
+venv/
 
 # Docker
 .dockerignore
