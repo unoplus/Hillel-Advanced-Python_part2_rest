@@ -1,20 +1,24 @@
+import environ
+
 import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG_VALUE', 0))
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 
 # Application definition
@@ -70,17 +74,23 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("POSTGRES_DB", default="postgres"),
-        "USER": os.getenv("POSTGRES_USER", default="postgres"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="postgres"),
-        "HOST": os.getenv("POSTGRES_HOST", default="postgres"),
-        "PORT": os.getenv("POSTGRES_PORT", default=5432),
-    }
-}
+# DATABASES = {
+#    "default": {
+#        "ENGINE": "django.db.backends.postgresql_psycopg2",
+#        "NAME": os.getenv("POSTGRES_DB", default="postgres"),
+#        "USER": os.getenv("POSTGRES_USER", default="postgres"),
+#        "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="postgres"),
+#        "HOST": os.getenv("POSTGRES_HOST", default="postgres"),
+#        "PORT": os.getenv("POSTGRES_PORT", default=5432),
+#    }
+# }
 
+DATABASES = {
+    "default": env.db_url(
+        "DATABASE_URL",
+        default="postgres://postgres:postgres@postgres:5432/postgres",
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -116,7 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = os.getenv("STATIC_URL", default="static/")
+STATIC_URL = env("STATIC_URL", default="static/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
