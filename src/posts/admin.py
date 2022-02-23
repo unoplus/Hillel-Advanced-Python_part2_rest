@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-from .models import Post
+from .models import HealthCheck, Post
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         "title",
@@ -15,4 +16,6 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ("-updated_at",)
 
 
-admin.site.register(Post, PostAdmin)
+@admin.register(HealthCheck)
+class HealthCheckAdmin(admin.ModelAdmin):
+    pass
