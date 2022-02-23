@@ -4,10 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-Django = "==4.0.2"
 djangorestframework = "==3.13.1"
 psycopg2-binary = "==2.9.3"
 django-environ = "==0.8.1"
+celery = "==5.2.3"
+django = "==3.2"
+django-celery-beat = "==2.2.1"
 
 [dev-packages]
 black = "==22.1.0"
