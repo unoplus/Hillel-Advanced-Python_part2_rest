@@ -1,10 +1,16 @@
 import environ
 
 import os
+import sys
+from datetime import timedelta
+from os import path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Add src folder to the PATH
+sys.path.append(path.join(BASE_DIR))
 
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -134,3 +140,14 @@ STATIC_URL = env("STATIC_URL", default="static/")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODULE = "auth.User"
+
+
+# Celery
+CELERY_ACCEPT_CONTENT = env.list("CELERY_ACCEPT_CONTENT", default=["json"])
+CELERY_TASK_SERIALIZER = env("CELERY_TASK_SERIALIZER", default="json")
+CELERY_BEAT_SCHEDULE = {
+    "beat_check": {
+        "task": "src.config.celery.beat_check", 
+        "schedule": timedelta(seconds=5)
+        }
+    }
